@@ -35,15 +35,17 @@ function init(){
     container.appendChild(renderer.domElement);
 
     let loader = new THREE.GLTFLoader();
-    loader.load("./public/modelo/scene.gltf", function(gltf){
+    loader.load("./public/modelo/scene.gltf", (gltf) =>{
         scene.add(gltf.scene);
         obj = gltf.scene.children[0];
-        // obj.position.set(2000,2000,2000);
+        obj.position.set(0,0,0);
         // obj.scale.set(0.0001, 0.00001, 0.0001);
         renderer.render(scene, camera);
         animate();
+        // console.log(gltf.scene.getWorldPosition(obj.position));
+        animar();
     });
-    loader.load("./public/earth/scene.gltf", function(gltf){
+    loader.load("./public/earth/scene.gltf", (gltf) =>{
         scene.add(gltf.scene);
         obj2 = gltf.scene.children[0];
         obj2.position.set(15,0,8);
@@ -55,6 +57,18 @@ function init(){
         requestAnimationFrame(animate);
         obj.rotation.z += 0.005;
         renderer.render(scene, camera);
+    }
+
+    function animar() {
+        renderer.render(scene, camera);
+        // if(obj2.position.x <= 15) {
+        //     obj2.position.x += -0.02;
+        // }
+        // else {
+        //     obj2.position.x += 0.02;
+        // }
+        obj2.position.x += -0.02;
+        requestAnimationFrame(animar);
     }
 }
 
