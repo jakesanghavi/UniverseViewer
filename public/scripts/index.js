@@ -35,6 +35,8 @@ function init(){
     container.appendChild(renderer.domElement);
 
     let loader = new THREE.GLTFLoader();
+
+    //Credit to Sebastian Sosnowski from Sketchfab
     loader.load("./public/modelo/scene.gltf", (gltf) =>{
         scene.add(gltf.scene);
         obj = gltf.scene.children[0];
@@ -45,6 +47,7 @@ function init(){
         // console.log(gltf.scene.getWorldPosition(obj.position));
         animar();
     });
+    //Credit to Scrunchy32205 from Sketchfab
     loader.load("./public/earth/scene.gltf", (gltf) =>{
         scene.add(gltf.scene);
         obj2 = gltf.scene.children[0];
