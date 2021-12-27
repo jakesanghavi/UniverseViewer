@@ -7,11 +7,6 @@
 body {
     font-family: sans-serif;
     overflow: hidden;
-    background-color: blue;
-}
-
-.scene {
-    color: blue;
 }
 
 .scene, 
