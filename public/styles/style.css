@@ -28,4 +28,5 @@ canvas {
     line-height: 0px;
     display: block;
     border: none;
+    z-index: 500;
 }

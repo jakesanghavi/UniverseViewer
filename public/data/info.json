@@ -1,0 +1,10 @@
+{
+    "The_Sun": [{
+        "Radius": "696,340 km",
+        "Luminosity": "3.827E26 W"
+    }],
+    "Earth": [{
+        "Radius": "6,371 km",
+        "Semi-Major Axis": "1.496E8 km"
+    }]
+}

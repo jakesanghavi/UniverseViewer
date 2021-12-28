@@ -4,7 +4,13 @@ let renderer;
 let scene;
 let obj;
 let obj2;
+let data;
 
+async function getData(url) {
+    const response = await fetch(url);
+    return response.json();
+}
+ 
 container = document.querySelector('.scene');
 scene = new THREE.Scene();
 
@@ -30,6 +36,7 @@ const mouse = new THREE.Vector2();
 
 var card = document.createElement("div");
 card.style.visibility = "hidden";
+card.style.fontSize = "5px";
 card.innerHTML = "";
 var ex = card.appendChild(document.createElement("button"));
 ex.id = "ex";
@@ -41,11 +48,12 @@ document.body.appendChild(card);
 
 function closeCard() {  
     card.style.visibility = "hidden";
+    console.log("triggered");
 }
 ex.onclick = closeCard;
 
 async function main(){
-
+    data = await getData("./public/data/info.json");
     // const ambient = new THREE.AmbientLight(0x404040, 3);
     const ambient = new THREE.AmbientLight(0xffffff)
     scene.add(ambient);
@@ -108,11 +116,17 @@ document.addEventListener('mousedown', () => {
         card.style.width = 100;
         card.style.height = 100;
         card.style.backgroundColor = "white";
-        info.innerHTML = hits[0].object.name.replace(/_/g, ' ');
+        const holder = hits[0].object.name;
+        info.innerHTML = holder.replace(/_/g, ' ');
         card.style.top = 20 + 'vh';
         card.style.left = 20 + 'vw';
         card.style.visibility = "visible";
         document.body.appendChild(card);
+        for(var key in data[holder][0]) {
+            info.appendChild(document.createElement("br"));
+            info.innerHTML += (key + ": ");
+            info.innerHTML += (data[holder][0][key]);
+        }
     }
     renderer.render(scene, camera);
 });
