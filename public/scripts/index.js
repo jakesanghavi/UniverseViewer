@@ -10,7 +10,7 @@ scene = new THREE.Scene();
 
 const fov = 75;
 // const asp = container.clientWidth / container.clientHeight;
-const asp = container.clientWidth / window.innerHeight;
+const asp = document.body.clientWidth/document.body.clientHeight;
 const near = 1;
 const far = 100;
 camera = new THREE.PerspectiveCamera(fov, asp, near, far);
@@ -23,6 +23,20 @@ renderer.setPixelRatio(window.devicePixelRatio);
 container.appendChild(renderer.domElement);
 
 const loader = new THREE.GLTFLoader();
+
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+console.log(renderer.domElement);
+
+function rays() {
+    raycaster.setFromCamera(mouse, camera);
+    const hits = raycaster.intersectObjects(scene.children);
+    if(hits.length > 0) {
+        console.log(hits[0].object.name);
+    }
+    renderer.render(scene, camera);
+}
 
 async function main(){
 
@@ -39,32 +53,34 @@ async function main(){
     obj = obj.scene
     //Credit to Scrunchy32205 from Sketchfab
     obj2 = await loader.loadAsync("./public/earth/scene.gltf");
-    obj2 = obj2.scene
+    obj2 = obj2.scene;
+    // obj2 = obj2.scene.children[0];
 
     scene.add(obj);
     scene.add(obj2);
     obj = obj.children[0];
     obj.angle = 0;
+    console.log(obj);
     obj2 = obj2.children[0];
     obj2.angle = 0;
 
-    spin(obj);
+    spin(obj, 0.005);
     obj2.scale.multiplyScalar(3);
     obj2.position.set(20,0,0);
-    spin(obj2);
-    orbit(obj2);
+    spin(obj2, 0.03);
+    orbit(obj2, 20);
     renderer.render(scene, camera);
 
-    function spin(objeto){
-        requestAnimationFrame(() => {spin(objeto);});
-        objeto.rotation.z += 0.005;
+    function spin(objeto, vel){
+        requestAnimationFrame(() => {spin(objeto, vel);});
+        objeto.rotation.z += vel;
         renderer.render(scene, camera);
     }
 
-    function orbit(objeto) {
-        requestAnimationFrame(() => {orbit(objeto);});
+    function orbit(objeto, dist) {
+        requestAnimationFrame(() => {orbit(objeto, dist);});
         objeto.angle += 0.005;
-        const off = [Math.cos(objeto.angle) * 20, Math.sin(objeto.angle) * -20];
+        const off = [Math.cos(objeto.angle) * dist, Math.sin(objeto.angle) * -dist];
         objeto.position.x = off[0];
         objeto.position.z = off[1];
         renderer.render(scene, camera);
@@ -73,3 +89,12 @@ async function main(){
 }
 
 main();
+
+document.addEventListener('mousedown', (e) => {
+    rays();
+});
+
+document.addEventListener('mousemove', (e) => {
+    mouse.x = (e.clientX/renderer.domElement.clientWidth)*2 -1;
+    mouse.y = -(e.clientY/renderer.domElement.clientHeight)*2 + 1;
+});
