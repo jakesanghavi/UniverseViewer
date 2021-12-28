@@ -29,9 +29,20 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 var card = document.createElement("div");
-card.id = "card";
+card.style.visibility = "hidden";
 card.innerHTML = "";
+var ex = card.appendChild(document.createElement("button"));
+ex.id = "ex";
+var extext = ex.appendChild(document.createElement("span"));
+extext.innerHTML = "x";
+var info = card.appendChild(document.createElement("p"));
+info.id = "info";
 document.body.appendChild(card);
+
+function closeCard() {  
+    card.style.visibility = "hidden";
+}
+ex.onclick = closeCard;
 
 async function main(){
 
@@ -91,15 +102,16 @@ document.addEventListener('mousedown', () => {
     raycaster.setFromCamera(mouse, camera);
     const hits = raycaster.intersectObjects(scene.children);
     if(hits.length > 0) {
-        document.getElementById("card").innerHTML = "";
+        document.getElementById("info").innerHTML = "";
         card.style.position = 'absolute';
         // text2.style.zIndex = 1;
         card.style.width = 100;
         card.style.height = 100;
         card.style.backgroundColor = "white";
-        card.innerHTML = hits[0].object.name.replace(/_/g, ' ');
-        card.style.top = 200 + 'px';
-        card.style.left = 200 + 'px';
+        info.innerHTML = hits[0].object.name.replace(/_/g, ' ');
+        card.style.top = 20 + 'vh';
+        card.style.left = 20 + 'vw';
+        card.style.visibility = "visible";
         document.body.appendChild(card);
     }
     renderer.render(scene, camera);
