@@ -34,9 +34,8 @@ const loader = new THREE.GLTFLoader();
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-var card = document.createElement("div");
-card.style.visibility = "hidden";
-card.style.fontSize = "5px";
+var card = container.appendChild(document.createElement("div"));
+card.id = "card";
 card.innerHTML = "";
 var ex = card.appendChild(document.createElement("button"));
 ex.id = "ex";
@@ -44,11 +43,10 @@ var extext = ex.appendChild(document.createElement("span"));
 extext.innerHTML = "x";
 var info = card.appendChild(document.createElement("p"));
 info.id = "info";
-document.body.appendChild(card);
+container.appendChild(card);
 
 function closeCard() {  
     card.style.visibility = "hidden";
-    console.log("triggered");
 }
 ex.onclick = closeCard;
 
@@ -65,6 +63,7 @@ async function main(){
     //Credit to Sebastian Sosnowski from Sketchfab
     sun = await loader.loadAsync("./public/sun/scene.gltf");
     sun = sun.scene
+
     //Credit to Scrunchy32205 from Sketchfab
     earth = await loader.loadAsync("./public/earth/scene.gltf");
     earth = earth.scene;
@@ -74,8 +73,7 @@ async function main(){
     scene.traverse((object) => {
         if (object.isMesh) object.material.transparent = false;
     });
-
-    // scene.children[1].object.material.transparent = false;
+    
     sun = sun.children[0];
     sun.angle = 0;
     earth = earth.children[0];
@@ -83,9 +81,9 @@ async function main(){
 
     spin(sun, 0.005);
     earth.scale.multiplyScalar(3);
-    earth.position.set(40,0,0);
+    earth.position.set(42,0,0);
     spin(earth, 0.03);
-    orbit(earth, 40);
+    orbit(earth, 42);
     renderer.render(scene, camera);
 
     function spin(objeto, vel){
@@ -106,22 +104,17 @@ async function main(){
 }
 main();
 
-document.addEventListener('mousedown', () => {
+container.addEventListener('mousedown', (e) => {
+    mouse.x = (e.clientX/renderer.domElement.clientWidth)*2 -1;
+    mouse.y = -(e.clientY/renderer.domElement.clientHeight)*2 + 1;
     raycaster.setFromCamera(mouse, camera);
     const hits = raycaster.intersectObjects(scene.children);
     if(hits.length > 0) {
         document.getElementById("info").innerHTML = "";
-        card.style.position = 'absolute';
-        // text2.style.zIndex = 1;
-        card.style.width = 100;
-        card.style.height = 100;
-        card.style.backgroundColor = "white";
         const holder = hits[0].object.name;
         info.innerHTML = holder.replace(/_/g, ' ');
-        card.style.top = 20 + 'vh';
-        card.style.left = 20 + 'vw';
         card.style.visibility = "visible";
-        document.body.appendChild(card);
+        container.appendChild(card);
         for(var key in data[holder][0]) {
             info.appendChild(document.createElement("br"));
             info.innerHTML += (key + ": ");
@@ -131,7 +124,6 @@ document.addEventListener('mousedown', () => {
     renderer.render(scene, camera);
 });
 
-document.addEventListener('mousemove', (e) => {
-    mouse.x = (e.clientX/renderer.domElement.clientWidth)*2 -1;
-    mouse.y = -(e.clientY/renderer.domElement.clientHeight)*2 + 1;
+card.addEventListener('mousedown', (e) => {
+    e.stopPropagation();
 });
