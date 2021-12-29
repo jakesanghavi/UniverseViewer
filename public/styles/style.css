@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: sans-serif;
+    font-family: 'Arsenal', sans-serif;
     overflow: hidden;
 }
 
@@ -23,6 +23,7 @@ canvas {
     background-color: white;
     top: 20vh;
     left: 20vw;
+    /* background: rgb(135, 206, 235, 0.6); */
 }
 
 #ex {
@@ -37,5 +38,6 @@ canvas {
     line-height: 0px;
     display: block;
     border: none;
+    background-color: white;
     z-index: 500;
 }

@@ -1,7 +1,3 @@
-let container;
-let camera;
-let renderer;
-let scene;
 let obj;
 let obj2;
 let data;
@@ -11,37 +7,35 @@ async function getData(url) {
     return response.json();
 }
  
-container = document.querySelector('.scene');
-scene = new THREE.Scene();
+const container = document.querySelector('.scene');
+const scene = new THREE.Scene();
 
 const fov = 75;
 // const asp = container.clientWidth / container.clientHeight;
 const asp = document.body.clientWidth/document.body.clientHeight;
 const near = 1;
 const far = 500;
-camera = new THREE.PerspectiveCamera(fov, asp, near, far);
-// camera.position.set(0, 100, 0);
+const camera = new THREE.PerspectiveCamera(fov, asp, near, far);
 camera.position.set(10, 60, 20);
 camera.lookAt(new THREE.Vector3(0,0,0));
 
-renderer = new THREE.WebGLRenderer({antialias:true, alpha:false});
+const renderer = new THREE.WebGLRenderer({antialias:true, alpha:false});
 renderer.setSize(document.body.clientWidth, document.body.clientHeight);
 // renderer.setSize(container.clientWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 container.appendChild(renderer.domElement);
 
-const loader = new THREE.GLTFLoader();
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-var card = container.appendChild(document.createElement("div"));
+let card = container.appendChild(document.createElement("div"));
 card.id = "card";
 card.innerHTML = "";
-var ex = card.appendChild(document.createElement("button"));
+let ex = card.appendChild(document.createElement("button"));
 ex.id = "ex";
-var extext = ex.appendChild(document.createElement("span"));
+let extext = ex.appendChild(document.createElement("span"));
 extext.innerHTML = "x";
-var info = card.appendChild(document.createElement("p"));
+let info = card.appendChild(document.createElement("p"));
 info.id = "info";
 container.appendChild(card);
 
@@ -51,12 +45,13 @@ function closeCard() {
 ex.onclick = closeCard;
 
 async function main(){
+    const loader = new THREE.GLTFLoader();
     data = await getData("./public/data/info.json");
     // const ambient = new THREE.AmbientLight(0x404040, 3);
     const ambient = new THREE.AmbientLight(0xffffff)
     scene.add(ambient);
 
-    var directionalLight = new THREE.DirectionalLight(0xffffff);
+    const directionalLight = new THREE.DirectionalLight(0xffffff);
     directionalLight.position.set(0,1,1).normalize();
     scene.add(directionalLight);
 
@@ -82,6 +77,7 @@ async function main(){
     spin(sun, 0.005);
     earth.scale.multiplyScalar(3);
     earth.position.set(42,0,0);
+    earth.rotation.y += 23.436 * Math.PI/180;
     spin(earth, 0.03);
     orbit(earth, 42);
     renderer.render(scene, camera);
