@@ -16,7 +16,7 @@ const asp = document.body.clientWidth/document.body.clientHeight;
 const near = 1;
 const far = 500;
 const camera = new THREE.PerspectiveCamera(fov, asp, near, far);
-camera.position.set(10, 200, 20);
+camera.position.set(10, 75, 20);
 camera.lookAt(new THREE.Vector3(0,0,0));
 
 const renderer = new THREE.WebGLRenderer({antialias:true, alpha:false});
@@ -74,6 +74,9 @@ async function main(){
     scene.add(mercury);
     scene.add(earth);
     scene.add(jupiter);
+    
+    const welcome = document.querySelector('.welcome');
+    welcome.remove();
 
     scene.traverse((object) => {
         if (object.isMesh) object.material.transparent = false;

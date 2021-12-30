@@ -8,8 +8,6 @@ Tool to view the nearby universe and to learn about various celestial objects.
 -Add zoom in, zoom out, and panning<br/>
 -Beautify text on page (with CSS)<br/>
 -Add moons (add orbital center parameter to orbit())<br/>
--Add orbital speed to orbit()<br/>
--Add a fading out title upon page open<br/>
 -Make orbits extend to the Y dimension<br/>
 -Add background stars<br/>
 -Add additional info to the card<br/>
