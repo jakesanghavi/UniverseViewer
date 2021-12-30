@@ -1,5 +1,5 @@
 {
-  "name": "UniView",
+  "name": "universe-viewer",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "contributors": [
+    {
+      "name": "Jake Sanghavi",
+      "email": "jms625@case.edu"
+    },
+    {
+      "name": "Sylvie Dyer",
+      "email": "srd119@case.edu"
+    }
+  ],
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.2"

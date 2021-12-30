@@ -31,20 +31,15 @@ span {
     font-size: 1rem;
     border-radius: .5rem;
     padding: .4rem;
-    /* background: rgb(135, 206, 235, 0.6); */
 }
 
 #ex {
     height: 15px;
     width:  15px;
-    /* position: absolute; */
     float: right;
-    /* top: 0;
-    right: 0; */
     color: red;
     font-size: .85rem;
     line-height: 0px;
-    /* display: block; */
     border: none;
     background-color: white;
     border-radius: 1px;

@@ -7,12 +7,32 @@
         "Radius": "2,439.7 km",
         "Semi-Major Axis": "0.387 AU"
     }],
+    "Venus": [{
+        "Radius":"6,051.8 km",
+        "Semi-Major Axis": "0.723 AU"
+    }],
     "Earth": [{
         "Radius": "6,371 km",
         "Semi-Major Axis": "1 AU"
     }],
+    "Mars": [{
+        "Radius": "3,389.5 km",
+        "Semi-Major Axis": "1.524 AU"
+    }],
     "Jupiter": [{
         "Radius": "69,911 km",
         "Semi-Major Axis": "5.203 AU"
+    }],
+    "Saturn": [{
+        "Radius": "58,232 km",
+        "Semi-Major Axis": "9.537 AU"
+    }],
+    "Uranus": [{
+        "Radius": "25,362 km",
+        "Semi-Major Axis": "19.191 AU" 
+    }],
+    "Neptune": [{
+        "Radius": "24,622 km",
+        "Semi-Major Axis": "30.070 AU"
     }]
 }
