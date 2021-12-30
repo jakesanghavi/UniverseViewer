@@ -33,8 +33,10 @@ card.id = "card";
 card.innerHTML = "";
 let ex = card.appendChild(document.createElement("button"));
 ex.id = "ex";
-let extext = ex.appendChild(document.createElement("span"));
-extext.innerHTML = "x";
+ex.innerHTML = "x";
+// let extext = ex.appendChild(document.createElement("span"));
+// extext.innerHTML = "x";
+
 let info = card.appendChild(document.createElement("p"));
 info.id = "info";
 container.appendChild(card);
