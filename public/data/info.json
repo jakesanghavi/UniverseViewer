@@ -3,8 +3,16 @@
         "Radius": "696,340 km",
         "Luminosity": "3.827E26 W"
     }],
+    "Mercury": [{
+        "Radius": "2,439.7 km",
+        "Semi-Major Axis": "0.387 AU"
+    }],
     "Earth": [{
         "Radius": "6,371 km",
-        "Semi-Major Axis": "1.496E8 km"
+        "Semi-Major Axis": "1 AU"
+    }],
+    "Jupiter": [{
+        "Radius": "69,911 km",
+        "Semi-Major Axis": "5.203 AU"
     }]
 }

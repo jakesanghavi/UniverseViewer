@@ -16,7 +16,7 @@ const asp = document.body.clientWidth/document.body.clientHeight;
 const near = 1;
 const far = 500;
 const camera = new THREE.PerspectiveCamera(fov, asp, near, far);
-camera.position.set(10, 60, 20);
+camera.position.set(10, 200, 20);
 camera.lookAt(new THREE.Vector3(0,0,0));
 
 const renderer = new THREE.WebGLRenderer({antialias:true, alpha:false});
@@ -62,8 +62,16 @@ async function main(){
     //Credit to Scrunchy32205 from Sketchfab
     earth = await loader.loadAsync("./public/earth/scene.gltf");
     earth = earth.scene;
+
+    jupiter = await loader.loadAsync("./public/jupiter/scene.gltf");
+    jupiter = jupiter.scene;
+
+    mercury = await loader.loadAsync("./public/mercury/scene.gltf");
+    mercury = mercury.scene;
     scene.add(sun);
+    scene.add(mercury);
     scene.add(earth);
+    scene.add(jupiter);
 
     scene.traverse((object) => {
         if (object.isMesh) object.material.transparent = false;
@@ -71,15 +79,28 @@ async function main(){
     
     sun = sun.children[0];
     sun.angle = 0;
+    mercury = mercury.children[0];
+    mercury.angle = 0;
     earth = earth.children[0];
     earth.angle = 0;
+    jupiter = jupiter.children[0];
+    jupiter.angle = 0;
 
     spin(sun, 0.005);
+    mercury.scale.multiplyScalar(0.025);
+    mercury.position.set(10,0,0);
+    spin(mercury, 0.03);
+    orbit(mercury, 0.387, (88/365.25));
     earth.scale.multiplyScalar(3);
-    earth.position.set(42,0,0);
-    earth.rotation.y += 23.436 * Math.PI/180;
+    earth.position.set(25,0,0);
+    earth.rotation.y = 23.436 * Math.PI/180;
     spin(earth, 0.03);
-    orbit(earth, 42);
+    orbit(earth, 1, 1);
+    jupiter.scale.multiplyScalar(0.05);
+    jupiter.position.set(45, 0, 0);
+    jupiter.rotation.y = 3.13 * Math.PI/180;
+    spin(jupiter, 0.03);
+    orbit(jupiter, 5.202, 12);
     renderer.render(scene, camera);
 
     function spin(objeto, vel){
@@ -88,10 +109,10 @@ async function main(){
         renderer.render(scene, camera);
     }
 
-    function orbit(objeto, dist) {
-        requestAnimationFrame(() => {orbit(objeto, dist);});
-        objeto.angle += 0.005;
-        const polar = [Math.cos(objeto.angle) * dist, Math.sin(objeto.angle) * -dist];
+    function orbit(objeto, dist, period) {
+        requestAnimationFrame(() => {orbit(objeto, dist, period);});
+        objeto.angle += 0.004/period;
+        const polar = [Math.cos(objeto.angle) * dist * 50, Math.sin(objeto.angle) * -dist * 50];
         objeto.position.x = polar[0];
         objeto.position.z = polar[1];
         renderer.render(scene, camera);

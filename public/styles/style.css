@@ -23,6 +23,7 @@ canvas {
     background-color: white;
     top: 20vh;
     left: 20vw;
+    border-radius: 1px;
     /* background: rgb(135, 206, 235, 0.6); */
 }
 
@@ -39,5 +40,5 @@ canvas {
     display: block;
     border: none;
     background-color: white;
-    z-index: 500;
+    border-radius: 1px;
 }
