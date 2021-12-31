@@ -43,6 +43,8 @@ async function main(){
     //Credit to Sebastian Sosnowski from Sketchfab
     sun = await loader.loadAsync("./public/objects/sun/scene.gltf");
     sun = sun.scene
+    neptune = await loader.loadAsync("./public/objects/neptune/scene.gltf");
+    neptune = neptune.scene
 
     //Credit to Akshat from Sketchfab
     mercury = await loader.loadAsync("./public/objects/mercury/scene.gltf");
@@ -58,9 +60,6 @@ async function main(){
     uranus = await loader.loadAsync("./public/objects/uranus/scene.gltf");
     uranus = uranus.scene
 
-    neptune = await loader.loadAsync("./public/objects/neptune/scene.gltf");
-    neptune = neptune.scene
-
     //Credit to Scrunchy32205 from Sketchfab
     earth = await loader.loadAsync("./public/objects/earth/scene.gltf");
     earth = earth.scene;
@@ -75,8 +74,7 @@ async function main(){
     scene.add(uranus);
     scene.add(neptune);
     
-    const welcome = document.querySelector('.welcome');
-    welcome.remove();
+    document.querySelector('.welcome').remove();
 
     scene.traverse((object) => {
         if (object.isMesh) object.material.transparent = false;
@@ -105,43 +103,39 @@ async function main(){
 
     mercury.scale.multiplyScalar(0.025);
     spin(mercury, 0.03);
-    orbit(mercury, 0.387, 88/365.25);
+    orbit(mercury, 0.387, 88/365.25, sun);
 
     venus.scale.multiplyScalar(0.03);
     venus.rotation.y = 3 * Math.PI/180;
     spin(venus, 0.03);
-    orbit(venus, 0.723, 225/365.25)
+    orbit(venus, 0.723, 225/365.25, sun)
 
     earth.scale.multiplyScalar(3);
     earth.rotation.y = 23.436 * Math.PI/180;
     spin(earth, 0.03);
-    orbit(earth, 1, 1);
+    orbit(earth, 1, 1, sun);
 
     mars.scale.multiplyScalar(0.03);
     mars.rotation.y = 25 * Math.PI/180;
     spin(mars, 0.03);
-    orbit(mars, 1.524, 687/365.25);
+    orbit(mars, 1.524, 687/365.25, sun);
 
     jupiter.scale.multiplyScalar(0.05);
-    
-    
     spin(jupiter, 0.03);
-    orbit(jupiter, 5.202, 12);
-    renderer.render(scene, camera);
+    orbit(jupiter, 5.202, 12, sun);
 
     saturn.scale.multiplyScalar(0.06);
     spin(saturn, 0.03);
-    orbit(saturn, 9.537, 29.457);
-    renderer.render(scene, camera);
+    orbit(saturn, 9.537, 29.457, sun);
 
     uranus.scale.multiplyScalar(0.06);
     spin(uranus, 0.03);
-    orbit(uranus, 19.191, 84);
+    orbit(uranus, 19.191, 84, sun);
 
     neptune.scale.multiplyScalar(0.6);
     neptune.rotation.y = 28 * Math.PI/180;
     spin(neptune, 0.03);
-    orbit(neptune, 30.07, 165);
+    orbit(neptune, 30.07, 165, sun);
     renderer.render(scene, camera);
 
     function spin(objeto, vel){
@@ -150,10 +144,12 @@ async function main(){
         renderer.render(scene, camera);
     }
 
-    function orbit(objeto, dist, period) {
-        requestAnimationFrame(() => {orbit(objeto, dist, period);});
+    function orbit(objeto, dist, period, parent) {
+        requestAnimationFrame(() => {orbit(objeto, dist, period, parent);});
         objeto.angle += 0.004/period;
-        objeto.position.copy(new THREE.Vector3(Math.cos(objeto.angle) * dist * 50, 0, Math.sin(objeto.angle) * -dist * 50))
+        // objeto.position.copy(new THREE.Vector3(Math.cos(objeto.angle) * dist * 50, 0, Math.sin(objeto.angle) * -dist * 50));
+        objeto.position.x = parent.position.x + Math.cos(objeto.angle) * dist * 50;
+        objeto.position.z = parent.position.z + Math.sin(objeto.angle) * -dist * 50;
     }
 
     let scale = 400;
@@ -188,16 +184,12 @@ container.addEventListener('mousedown', (e) => {
     raycaster.setFromCamera(mouse, camera);
     const hits = raycaster.intersectObjects(scene.children);
     if(hits.length > 0) {
-        document.getElementById("info").innerHTML = "";
         const holder = hits[0].object.name;
-        console.log(hits[0].object.position);
         info.innerHTML = holder.replace(/_/g, ' ');
         card.style.visibility = "visible";
-        container.appendChild(card);
         for(var key in data[holder][0]) {
             info.appendChild(document.createElement("br"));
-            info.innerHTML += (key + ": ");
-            info.innerHTML += (data[holder][0][key]);
+            info.innerHTML += (key + ": " + data[holder][0][key]);
         }
     }
 });
