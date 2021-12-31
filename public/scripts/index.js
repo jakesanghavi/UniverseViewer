@@ -1,12 +1,13 @@
-let obj;
-let obj2;
+// let obj;
+// let obj2;
 let data;
+
 
 async function getData(url) {
     const response = await fetch(url);
     return response.json();
 }
- 
+
 const container = document.querySelector('.scene');
 const scene = new THREE.Scene();
 
@@ -22,6 +23,8 @@ container.appendChild(renderer.domElement);
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
+
+
 const card = document.getElementById("card");
 const ex = document.getElementById("ex");
 const info = document.getElementById("info");
@@ -29,6 +32,25 @@ const info = document.getElementById("info");
 ex.onclick = (() => {
     card.style.visibility = "hidden";
 })
+
+let scale = 400;
+let horizontal = 0;
+let vertical = 20; 
+
+// zooms and moves left + right 
+function zoom(event) {
+    event.preventDefault();
+
+   // the camera is repositioned as the user 'scrolls'
+    horizontal += event.deltaX * -1;
+    scale += event.deltaY * -1;
+
+    camera.position.set(horizontal, scale, 20);
+
+}
+container.onwheel = zoom;
+scene.onwheel = zoom;
+
 
 async function main(){
     const loader = new THREE.GLTFLoader();
@@ -151,34 +173,10 @@ async function main(){
         objeto.position.x = parent.position.x + Math.cos(objeto.angle) * dist * 50;
         objeto.position.z = parent.position.z + Math.sin(objeto.angle) * -dist * 50;
     }
-
-    let scale = 400;
-    let horizontal = 0;
-    let vertical = 70; 
-
-    // zooms and moves left + right 
-    function zoom(event) {
-        event.preventDefault();
-
-       // !! scale += event.deltaY * -1;
-       // !! camera.position.set(0, scale, 70);
-
-       // the camera is repositioned as the user 'scrolls'
-        horizontal += event.deltaX * -1;
-        scale += event.deltaY * -1;
-
-        camera.position.set(horizontal, scale, 70);
-
-    }
-    container.onwheel = zoom;
-    scene.onwheel = zoom;
-
-    
-
 }
 main();
 
-container.addEventListener('mousedown', (e) => {
+container.addEventListener('click', (e) => {
     mouse.x = (e.clientX/renderer.domElement.clientWidth)*2 -1;
     mouse.y = -(e.clientY/renderer.domElement.clientHeight)*2 + 1;
     raycaster.setFromCamera(mouse, camera);
@@ -194,7 +192,18 @@ container.addEventListener('mousedown', (e) => {
     }
 });
 
-card.addEventListener('mousedown', (e) => {
+card.addEventListener('click', (e) => {
     e.stopPropagation();
 });
 
+container.addEventListener('mousedown', (e) => {
+    let cursor;
+    cursor.x = (e.clientX/renderer.domElement.clientWidth)*2 -1;
+    cursor.y = -(e.clientY/renderer.domElement.clientHeight)*2 + 1;
+
+    horizontal += cursor.x * -1;
+    vertical += cursor.y * -1;
+
+    camera.position.set(horizontal, scale, vertical);
+
+});
