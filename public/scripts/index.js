@@ -10,8 +10,8 @@ async function getData(url) {
 const container = document.querySelector('.scene');
 const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(75, document.body.clientWidth/document.body.clientHeight, 1, 500);
-camera.position.set(10, 400, 20);
+const camera = new THREE.PerspectiveCamera(75, document.body.clientWidth/document.body.clientHeight, 1, 5000);
+camera.position.set(0, 400, 20);
 camera.lookAt(new THREE.Vector3(0,0,0));
 
 const renderer = new THREE.WebGLRenderer({antialias:true, alpha:false});
@@ -156,6 +156,29 @@ async function main(){
         objeto.position.copy(new THREE.Vector3(Math.cos(objeto.angle) * dist * 50, 0, Math.sin(objeto.angle) * -dist * 50))
     }
 
+    let scale = 400;
+    let horizontal = 0;
+    let vertical = 70; 
+
+    // zooms and moves left + right 
+    function zoom(event) {
+        event.preventDefault();
+
+       // !! scale += event.deltaY * -1;
+       // !! camera.position.set(0, scale, 70);
+
+       // the camera is repositioned as the user 'scrolls'
+        horizontal += event.deltaX * -1;
+        scale += event.deltaY * -1;
+
+        camera.position.set(horizontal, scale, 70);
+
+    }
+    container.onwheel = zoom;
+    scene.onwheel = zoom;
+
+    
+
 }
 main();
 
@@ -182,3 +205,4 @@ container.addEventListener('mousedown', (e) => {
 card.addEventListener('mousedown', (e) => {
     e.stopPropagation();
 });
+
