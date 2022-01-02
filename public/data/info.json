@@ -1,38 +1,72 @@
 {
     "The_Sun": [{
+        "Mass": "1.989E30 kg",
         "Radius": "696,340 km",
-        "Luminosity": "3.827E26 W"
+        "Luminosity": "3.827E26 W",
+        "Rotational Period": "27 days"
     }],
     "Mercury": [{
+        "Mass": "3.285E23 kg",
         "Radius": "2,439.7 km",
-        "Semi-Major Axis": "0.387 AU"
+        "Semi-Major Axis": "0.387 AU",
+        "Orbital Period": "0.241 years",
+        "Rotational Period": "58.646 days",
+        "Axial Tilt": "0.034 degrees"
     }],
     "Venus": [{
+        "Mass": "4.867E24 kg",
         "Radius":"6,051.8 km",
-        "Semi-Major Axis": "0.723 AU"
+        "Semi-Major Axis": "0.723 AU",
+        "Orbital Period": "0.651 years",
+        "Rotational Period": "116.75 days",
+        "Axial Tilt": "3 degrees"
     }],
     "Earth": [{
+        "Mass": "5.972E24 kg",
         "Radius": "6,371 km",
-        "Semi-Major Axis": "1 AU"
+        "Semi-Major Axis": "1 AU",
+        "Orbital Period": "1 year",
+        "Rotational Period": "1 day",
+        "Axial Tilt": "23.436 degrees"
     }],
     "Mars": [{
+        "Mass": "6.390E23 kg",
         "Radius": "3,389.5 km",
-        "Semi-Major Axis": "1.524 AU"
+        "Semi-Major Axis": "1.524 AU",
+        "Orbital Period": "1.881 years",
+        "Rotational Period": "1.026 days",
+        "Axial Tilt": "25.19 degrees"
     }],
     "Jupiter": [{
+        "Mass": "1.898E27 kg",
         "Radius": "69,911 km",
-        "Semi-Major Axis": "5.203 AU"
+        "Semi-Major Axis": "5.203 AU",
+        "Orbital Period": "11.862 years",
+        "Rotational Period": "0.414 days",
+        "Axial Tilt": "3.13 degrees"
     }],
     "Saturn": [{
+        "Mass": "5.683E26 kg",
         "Radius": "58,232 km",
-        "Semi-Major Axis": "9.537 AU"
+        "Semi-Major Axis": "9.537 AU",
+        "Orbital Period": "29.457 years",
+        "Rotational Period": "0.446 days",
+        "Axial Tilt": "26.73 degrees"
     }],
     "Uranus": [{
+        "Mass": "8.681E25 kg",
         "Radius": "25,362 km",
-        "Semi-Major Axis": "19.191 AU" 
+        "Semi-Major Axis": "19.191 AU",
+        "Orbital Period": "84.021 years",
+        "Rotational Period": "0.718 days",
+        "Axial Tilt": "97.77 degrees"
     }],
     "Neptune": [{
+        "Mass": "1.024E26 kg",
         "Radius": "24,622 km",
-        "Semi-Major Axis": "30.070 AU"
+        "Semi-Major Axis": "30.070 AU",
+        "Orbital Period": "164.79 years",
+        "Rotational Period": "0.671 days",
+        "Axial Tilt": "28.32 degrees"
     }]
 }

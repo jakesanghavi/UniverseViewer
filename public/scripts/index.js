@@ -1,7 +1,4 @@
-// let obj;
-// let obj2;
 let data;
-
 
 async function getData(url) {
     const response = await fetch(url);
@@ -22,8 +19,6 @@ container.appendChild(renderer.domElement);
 
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
-
-
 
 const card = document.getElementById("card");
 const ex = document.getElementById("ex");
@@ -51,9 +46,14 @@ function zoom(event) {
 container.onwheel = zoom;
 scene.onwheel = zoom;
 
-
 async function main(){
     const loader = new THREE.GLTFLoader();
+
+    function getObject(url) {
+        const obj = loader.loadAsync(url);
+        return obj;
+    }
+
     data = await getData("./public/data/info.json");
     const ambient = new THREE.AmbientLight(0xffffff)
     scene.add(ambient);
@@ -62,64 +62,38 @@ async function main(){
     directionalLight.position.set(0,1,1).normalize();
     scene.add(directionalLight);
 
-    //Credit to Sebastian Sosnowski from Sketchfab
-    sun = await loader.loadAsync("./public/objects/sun/scene.gltf");
-    sun = sun.scene
-    neptune = await loader.loadAsync("./public/objects/neptune/scene.gltf");
-    neptune = neptune.scene
+    const files = ["./public/objects/sun/scene.gltf", "./public/objects/mercury/scene.gltf", "./public/objects/venus/scene.gltf",
+                "./public/objects/earth/scene.gltf", "./public/objects/mars/scene.gltf", "./public/objects/jupiter/scene.gltf",
+                "./public/objects/saturn/scene.gltf", "./public/objects/uranus/scene.gltf", "./public/objects/neptune/scene.gltf"]
 
-    //Credit to Akshat from Sketchfab
-    mercury = await loader.loadAsync("./public/objects/mercury/scene.gltf");
-    mercury = mercury.scene;
-    venus = await loader.loadAsync("./public/objects/venus/scene.gltf");
-    venus = venus.scene;
-    mars = await loader.loadAsync("./public/objects/mars/scene.gltf");
-    mars = mars.scene
-    jupiter = await loader.loadAsync("./public/objects/jupiter/scene.gltf");
-    jupiter = jupiter.scene;
-    saturn = await loader.loadAsync("./public/objects/saturn/scene.gltf");
-    saturn = saturn.scene
-    uranus = await loader.loadAsync("./public/objects/uranus/scene.gltf");
-    uranus = uranus.scene
+    const objects = []
 
-    //Credit to Scrunchy32205 from Sketchfab
-    earth = await loader.loadAsync("./public/objects/earth/scene.gltf");
-    earth = earth.scene;
+    for(let i=0;i<files.length;i++) {
+        const obj = await getObject(files[i]);
+        objects[i] = obj.scene;
+    }
 
-    scene.add(sun);
-    scene.add(mercury);
-    scene.add(venus);
-    scene.add(mars);
-    scene.add(earth);
-    scene.add(jupiter);
-    scene.add(saturn);
-    scene.add(uranus);
-    scene.add(neptune);
-    
+    objects.forEach((obj, index) => {
+        scene.add(obj);
+        objects[index] = obj.children[0];
+        objects[index].angle = 0;
+    });
+
     document.querySelector('.welcome').remove();
 
     scene.traverse((object) => {
         if (object.isMesh) object.material.transparent = false;
     });
     
-    sun = sun.children[0];
-    sun.angle = 0;
-    mercury = mercury.children[0];
-    mercury.angle = 0;
-    venus = venus.children[0];
-    venus.angle = 0;
-    earth = earth.children[0];
-    earth.angle = 0;
-    mars = mars.children[0];
-    mars.angle = 0;
-    jupiter = jupiter.children[0];
-    jupiter.angle = 0;
-    saturn = saturn.children[0];
-    saturn.angle = 0;
-    uranus = uranus.children[0];
-    uranus.angle = 0;
-    neptune = neptune.children[0];
-    neptune.angle = 0;
+    const sun = objects[0];
+    const mercury = objects[1];
+    const venus = objects[2];
+    const earth = objects[3];
+    const mars = objects[4];
+    const jupiter = objects[5];
+    const saturn = objects[6];
+    const uranus = objects[7];
+    const neptune = objects[8];
 
     spin(sun, 0.005);
 
@@ -169,7 +143,6 @@ async function main(){
     function orbit(objeto, dist, period, parent) {
         requestAnimationFrame(() => {orbit(objeto, dist, period, parent);});
         objeto.angle += 0.004/period;
-        // objeto.position.copy(new THREE.Vector3(Math.cos(objeto.angle) * dist * 50, 0, Math.sin(objeto.angle) * -dist * 50));
         objeto.position.x = parent.position.x + Math.cos(objeto.angle) * dist * 50;
         objeto.position.z = parent.position.z + Math.sin(objeto.angle) * -dist * 50;
     }
@@ -185,7 +158,7 @@ container.addEventListener('click', (e) => {
         const holder = hits[0].object.name;
         info.innerHTML = holder.replace(/_/g, ' ');
         card.style.visibility = "visible";
-        for(var key in data[holder][0]) {
+        for(let key in data[holder][0]) {
             info.appendChild(document.createElement("br"));
             info.innerHTML += (key + ": " + data[holder][0][key]);
         }
@@ -194,16 +167,4 @@ container.addEventListener('click', (e) => {
 
 card.addEventListener('click', (e) => {
     e.stopPropagation();
-});
-
-container.addEventListener('mousedown', (e) => {
-    let cursor;
-    cursor.x = (e.clientX/renderer.domElement.clientWidth)*2 -1;
-    cursor.y = -(e.clientY/renderer.domElement.clientHeight)*2 + 1;
-
-    horizontal += cursor.x * -1;
-    vertical += cursor.y * -1;
-
-    camera.position.set(horizontal, scale, vertical);
-
 });

@@ -4,8 +4,9 @@ Tool to view the nearby universe and to learn about various celestial objects.
 **This project is run from the app.js file.**
 
 **To Do List:**<br/>
--Add zoom in, zoom out, and panning<br/>
+-Add vertical panning<br/>
 -Beautify text on page (with CSS)<br/>
+-Speed up loading by changing .gltf files to .glb </br>
 -Add major moons </br>
 -Make orbits extend to the Y dimension<br/>
 -Add background stars<br/>
